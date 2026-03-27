@@ -22,4 +22,4 @@ Prompt: "How can I include the unique competitive spirit of the Turkish Süper L
 Output: The AI helped phrase the "sterilization vs. raw spirit" argument to explain why top Turkish clubs still record high aggression levels.
 
 ### 3. Human Contribution and Verification
-All final decisions, including the choice of leagues (Top 5 + Süper Lig) and the specific focus on the 2024-2025 season, were made by the student. The AI-generated text was reviewed and corrected to ensure it accurately reflects the student's vision for the project.
+All final decisions, including the choice of leagues (Top 5 + Süper Lig) and the specific focus on the 2024-2025 season, were made by the student. The text was reviewed and corrected to ensure it accurately reflects the student's vision for the project.
