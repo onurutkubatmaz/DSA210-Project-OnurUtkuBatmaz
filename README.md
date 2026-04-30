@@ -59,14 +59,16 @@ DSA210-Project/
 │   │   ├── SerieA_Combined.xlsx
 │   │   ├── Bundesliga_Combined.xlsx
 │   │   ├── Ligue1_Combined.xlsx
-│   │   └── SuperLig_Combined.xlsx
+│   │   ├── SuperLig_Combined.xlsx
+│   │   └── Master_Dataset.xlsx
 │   └── processed/
 │       └── master_dataset.csv      # Combined 583-row dataset
 │
 ├── scripts/
 │   ├── 01_data_collection.py       # Data pipeline documentation
 │   ├── 02_eda.py                   # Exploratory data analysis + plots
-│   └── 03_hypothesis_testing.py    # Statistical hypothesis tests
+│   ├── 03_hypothesis_testing.py    # Statistical hypothesis tests
+│   └── 04_ml_analysis.py          # Machine learning pipeline
 │
 ├── outputs/                        # Generated figures
 │   ├── plot1_distributions.png
@@ -76,7 +78,11 @@ DSA210-Project/
 │   ├── plot5_boxplot_amv_groups.png
 │   ├── plot6_possession_discipline.png
 │   ├── plot7_heatmap.png
-│   └── plot8_season_trend.png
+│   ├── plot8_season_trend.png
+│   ├── regression_analysis.png
+│   ├── clustering_analysis.png
+│   ├── classification_analysis.png
+│   └── league_analysis.png
 │
 ├── DSA210_Proposal.pdf
 ├── AI_Usage_Logs.md
@@ -90,15 +96,59 @@ DSA210-Project/
 
 | League | Pearson r | Spearman r | Significant? |
 |--------|-----------|------------|--------------|
-| Premier League | -0.212 | -0.116 | ✅ Pearson only |
+| Premier League | -0.212 | -0.116 | ⚠️ Pearson only |
 | La Liga | -0.431 | -0.414 | ✅ Yes |
 | Serie A | -0.516 | -0.417 | ✅ Yes |
 | Bundesliga | -0.413 | -0.302 | ✅ Yes |
-| Ligue 1 | -0.231 | -0.067 | ✅ Pearson only |
+| Ligue 1 | -0.231 | -0.067 | ⚠️ Pearson only |
 | Süper Lig | -0.249 | -0.296 | ✅ Yes |
 | **All Leagues** | **-0.377** | **-0.355** | **✅ p < 0.001** |
 
 High-AMV teams average **83 discipline points** vs **94 points** for low-AMV teams (t-test p < 0.001).
+
+Premier League and Ligue 1 show significant Pearson correlations but non-significant Spearman correlations, suggesting the linear relationship in these leagues is driven by outlier clubs (e.g. Man City, PSG) rather than a consistent rank-order trend.
+
+---
+
+## Machine Learning Results
+
+### Feature Selection
+
+AMV (€M) and Possession (%) were used as predictors alongside one-hot encoded League and ordinal-encoded Season. CrdY, CrdR, and CoA were intentionally excluded to prevent data leakage, as they either directly compute or are derived from the target variable.
+
+### Regression — Predicting Discipline Points
+
+| Model | R² | MAE | RMSE |
+|-------|-----|-----|------|
+| Linear Regression | **0.4125** | 13.51 | 16.89 |
+| Ridge (α=1.0) | 0.4125 | 13.52 | 16.89 |
+| Lasso (α=0.1) | 0.4109 | 13.55 | 16.91 |
+| Random Forest | 0.3858 | 13.70 | 17.27 |
+
+The models explain approximately 41% of the variance in discipline points using market value, possession, league, and season. The remaining 59% reflects inherent noise in football — referee tendencies, match context, individual player decisions — which is expected for behavioral data.
+
+### Clustering — Team Profiles
+
+K-Means clustering (k=2, silhouette=0.426) reveals two dominant team profiles:
+
+| Cluster | AMV (€M) | Disc. Points | Poss (%) | Count |
+|---------|----------|--------------|----------|-------|
+| Low Value / Aggressive | 3.93 | 94.3 | 48.2% | 430 |
+| High Value / Disciplined | 15.68 | 72.4 | 55.2% | 153 |
+
+This is the strongest evidence supporting the central hypothesis: high-value teams receive on average 22 fewer discipline points per season while controlling 7% more possession.
+
+### Classification — Aggression Level Prediction
+
+Discipline points were binned into three classes (Low < 79, Medium 79–96, High > 96):
+
+| Model | Accuracy |
+|-------|----------|
+| Logistic Regression | **0.5128** |
+| Random Forest | 0.4786 |
+| KNN (k=7) | 0.4701 |
+
+5-Fold CV accuracy for Random Forest: **0.5403 ± 0.0400**, substantially above the baseline of 0.33. The "High aggression" class is predicted most reliably (F1=0.65), while "Medium" is hardest to distinguish (F1=0.29), which is expected for a middle category.
 
 ---
 
@@ -116,6 +166,9 @@ python scripts/02_eda.py
 
 # Run hypothesis tests
 python scripts/03_hypothesis_testing.py
+
+# Run ML analysis
+python scripts/04_ml_analysis.py
 ```
 
 ---
