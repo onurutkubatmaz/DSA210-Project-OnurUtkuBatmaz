@@ -7,14 +7,29 @@ from scipy import stats
 import warnings
 warnings.filterwarnings('ignore')
 
+# ── Paths ─────────────────────────────────────────────────────────
+from pathlib import Path
+
+PROJECT_ROOT = Path.cwd()
+if PROJECT_ROOT.name.lower() in ["notebook", "notebooks", "scripts"]:
+    PROJECT_ROOT = PROJECT_ROOT.parent
+
+DATA_RAW = PROJECT_ROOT / "data" / "raw"
+OUTPUTS  = PROJECT_ROOT / "outputs"
+OUTPUTS.mkdir(parents=True, exist_ok=True)
+
+print("PROJECT_ROOT :", PROJECT_ROOT)
+print("DATA_RAW     :", DATA_RAW)
+print("OUTPUTS      :", OUTPUTS)
+
 # ── Veri yükle ────────────────────────────────────────────────────
 files = [
-    '/mnt/user-data/uploads/PL_Combined.xlsx',
-    '/mnt/user-data/uploads/LaLiga_Combined.xlsx',
-    '/mnt/user-data/uploads/SerieA_Combined.xlsx',
-    '/mnt/user-data/uploads/Bundesliga_Combined.xlsx',
-    '/mnt/user-data/uploads/Ligue1_Combined.xlsx',
-    '/mnt/user-data/uploads/SuperLig_Combined.xlsx',
+    DATA_RAW / "PL_Combined.xlsx",
+    DATA_RAW / "LaLiga_Combined.xlsx",
+    DATA_RAW / "SerieA_Combined.xlsx",
+    DATA_RAW / "Bundesliga_Combined.xlsx",
+    DATA_RAW / "Ligue1_Combined.xlsx",
+    DATA_RAW / "SuperLig_Combined.xlsx",
 ]
 dfs = [pd.read_excel(f) for f in files]
 df = pd.concat(dfs, ignore_index=True)
@@ -57,7 +72,7 @@ axes[1].axvline(df['Discipline Points'].median(), color='navy', linestyle='--', 
 axes[1].legend()
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot1_distributions.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot1_distributions.png', bbox_inches='tight')
 plt.close()
 print("Plot 1 kaydedildi.")
 
@@ -84,7 +99,7 @@ ax.legend(loc='upper right', fontsize=9)
 ax.grid(True, alpha=0.2, zorder=0)
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot2_scatter_main.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot2_scatter_main.png', bbox_inches='tight')
 plt.close()
 print("Plot 2 kaydedildi.")
 
@@ -109,7 +124,7 @@ for ax, league in zip(axes.flatten(), leagues):
     ax.grid(True, alpha=0.2)
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot3_scatter_by_league.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot3_scatter_by_league.png', bbox_inches='tight')
 plt.close()
 print("Plot 3 kaydedildi.")
 
@@ -133,7 +148,7 @@ ax.set_title('Discipline Points Distribution by League (2020–25)', fontsize=14
 ax.grid(True, axis='y', alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot4_boxplot_league.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot4_boxplot_league.png', bbox_inches='tight')
 plt.close()
 print("Plot 4 kaydedildi.")
 
@@ -162,7 +177,7 @@ ax.set_title(f'High vs Low AMV Groups\nt={t_stat:.2f}, p<0.001\nMean diff: {low.
 ax.grid(True, axis='y', alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot5_boxplot_amv_groups.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot5_boxplot_amv_groups.png', bbox_inches='tight')
 plt.close()
 print("Plot 5 kaydedildi.")
 
@@ -188,7 +203,7 @@ ax.legend(fontsize=9)
 ax.grid(True, alpha=0.2)
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot6_possession_discipline.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot6_possession_discipline.png', bbox_inches='tight')
 plt.close()
 print("Plot 6 kaydedildi.")
 
@@ -207,7 +222,7 @@ sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='RdBu_r',
 ax.set_title('Correlation Matrix — Key Variables', fontsize=13, fontweight='bold')
 
 plt.tight_layout()
-plt.savefig('/home/claude/plot7_heatmap.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot7_heatmap.png', bbox_inches='tight')
 plt.close()
 print("Plot 7 kaydedildi.")
 
@@ -239,7 +254,7 @@ for i, (r, p, n) in enumerate(zip(r_vals, p_vals, n_vals)):
 ax.legend()
 ax.grid(True, axis='y', alpha=0.2)
 plt.tight_layout()
-plt.savefig('/home/claude/plot8_season_trend.png', bbox_inches='tight')
+plt.savefig(OUTPUTS / 'plot8_season_trend.png', bbox_inches='tight')
 plt.close()
 print("Plot 8 kaydedildi.")
 
