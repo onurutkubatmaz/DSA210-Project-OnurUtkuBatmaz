@@ -22,7 +22,7 @@ print("PROJECT_ROOT :", PROJECT_ROOT)
 print("DATA_RAW     :", DATA_RAW)
 print("OUTPUTS      :", OUTPUTS)
 
-# ── Veri yükle ────────────────────────────────────────────────────
+# ── Load data ───────────────────────────────────────────────────────
 files = [
     DATA_RAW / "PL_Combined.xlsx",
     DATA_RAW / "LaLiga_Combined.xlsx",
@@ -52,7 +52,7 @@ plt.rcParams.update({
 })
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 1 — Genel Dağılım: AMV ve Discipline Points histogramları
+# PLOT 1 — Distributions: AMV and Discipline Points histograms
 # ══════════════════════════════════════════════════════════════════
 fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 fig.suptitle('Distribution of Key Variables (n=583)', fontsize=14, fontweight='bold', y=1.02)
@@ -74,10 +74,10 @@ axes[1].legend()
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot1_distributions.png', bbox_inches='tight')
 plt.close()
-print("Plot 1 kaydedildi.")
+print("Plot 1 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 2 — Ana Scatter: AMV vs Discipline Points (lig renkli)
+# PLOT 2 — Main Scatter: AMV vs Discipline Points (colored by league)
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(12, 7))
 
@@ -86,7 +86,7 @@ for league, color in LEAGUE_COLORS.items():
     ax.scatter(sub['AMV (€M)'], sub['Discipline Points'],
                color=color, alpha=0.55, s=35, label=league, zorder=3)
 
-# Trend çizgisi
+# Trend line
 m, b, r, p, _ = stats.linregress(df['AMV (€M)'], df['Discipline Points'])
 x_line = np.linspace(df['AMV (€M)'].min(), df['AMV (€M)'].max(), 200)
 ax.plot(x_line, m * x_line + b, color='black', linewidth=2,
@@ -101,10 +101,10 @@ ax.grid(True, alpha=0.2, zorder=0)
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot2_scatter_main.png', bbox_inches='tight')
 plt.close()
-print("Plot 2 kaydedildi.")
+print("Plot 2 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 3 — Lig bazında scatter (6 ayrı panel)
+# PLOT 3 — Per-league scatter (6 panels)
 # ══════════════════════════════════════════════════════════════════
 fig, axes = plt.subplots(2, 3, figsize=(15, 9))
 fig.suptitle('AMV vs Discipline Points by League', fontsize=14, fontweight='bold')
@@ -126,10 +126,10 @@ for ax, league in zip(axes.flatten(), leagues):
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot3_scatter_by_league.png', bbox_inches='tight')
 plt.close()
-print("Plot 3 kaydedildi.")
+print("Plot 3 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 4 — Boxplot: Lig bazında Discipline Points
+# PLOT 4 — Boxplot: Discipline Points by league
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(12, 6))
 
@@ -150,10 +150,10 @@ ax.grid(True, axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot4_boxplot_league.png', bbox_inches='tight')
 plt.close()
-print("Plot 4 kaydedildi.")
+print("Plot 4 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 5 — Boxplot: Yüksek vs Düşük AMV grubu
+# PLOT 5 — Boxplot: High vs Low AMV groups
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(7, 6))
 
@@ -179,10 +179,10 @@ ax.grid(True, axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot5_boxplot_amv_groups.png', bbox_inches='tight')
 plt.close()
-print("Plot 5 kaydedildi.")
+print("Plot 5 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 6 — Possession vs Discipline Points
+# PLOT 6 — Possession vs Discipline Points (control variable)
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -205,10 +205,10 @@ ax.grid(True, alpha=0.2)
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot6_possession_discipline.png', bbox_inches='tight')
 plt.close()
-print("Plot 6 kaydedildi.")
+print("Plot 6 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 7 — Korelasyon Heatmap
+# PLOT 7 — Correlation Heatmap
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(7, 6))
 
@@ -224,10 +224,10 @@ ax.set_title('Correlation Matrix — Key Variables', fontsize=13, fontweight='bo
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot7_heatmap.png', bbox_inches='tight')
 plt.close()
-print("Plot 7 kaydedildi.")
+print("Plot 7 saved.")
 
 # ══════════════════════════════════════════════════════════════════
-# PLOT 8 — Sezon bazlı korelasyon trendi
+# PLOT 8 — Season-by-season correlation trend
 # ══════════════════════════════════════════════════════════════════
 fig, ax = plt.subplots(figsize=(9, 5))
 
@@ -256,6 +256,6 @@ ax.grid(True, axis='y', alpha=0.2)
 plt.tight_layout()
 plt.savefig(OUTPUTS / 'plot8_season_trend.png', bbox_inches='tight')
 plt.close()
-print("Plot 8 kaydedildi.")
+print("Plot 8 saved.")
 
-print("\n✅ Tüm 8 grafik oluşturuldu!")
+print("\n✅ All 8 plots generated.")
