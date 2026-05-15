@@ -10,7 +10,7 @@
 
 Football is the world's most popular sport, yet it is also one of its most financially unequal. The past two decades have witnessed an unprecedented commercialization of the game: transfer fees now routinely exceed €100 million, average player salaries at top clubs run into tens of millions per year, and squad valuations at elite sides have surpassed €1 billion.
 
-The central question motivating this project is deceptively simple: **does money buy discipline?** Do teams that invest heavily in their squads receive fewer disciplinary sanctions than their lower-budget counterparts? There are two competing intuitions:
+The central question motivating this project is deceptively simple: **does money buy discipline?** Do teams that invest heavily in their squads (as measured by average player market value, AMV) receive fewer disciplinary sanctions than their lower-budget counterparts? There are two competing intuitions:
 
 - Technically superior, expensive players may rely on skill rather than physical aggression, naturally incurring fewer fouls and cards.
 - Financial pressure at elite clubs might push managers to adopt more disciplined tactical systems to protect expensive assets.
@@ -47,7 +47,7 @@ The central question motivating this project is deceptively simple: **does money
 | AMV (€M) | Total Squad Value / Squad Size | Normalized average market value per player |
 | CoA | Discipline Points × AMV | Cost of Aggression Index |
 
-> **Data note:** Gaziantep FK and Hatayspor were excluded from the 2022–23 Süper Lig season following their mid-season withdrawal after the February 2023 earthquake. The remaining teams played between 34 and 35 nineties — a difference of less than 3% — deemed insufficient to warrant normalization.
+> **Data note:** Gaziantep FK and Hatayspor were excluded from the 2022–23 Süper Lig season following their mid-season withdrawal after the February 2023 earthquake. The remaining teams played between 34 and 35 nineties, a difference of less than 3%, deemed insufficient to warrant normalization.
 
 ---
 
@@ -119,17 +119,17 @@ The negative AMV–discipline correlation holds across all five seasons (r rangi
 
 Four statistical tests were conducted at α = 0.05.
 
-**Test 1 — Pearson Correlation**
-> r = −0.377, p < 0.001, 95% CI = [−0.450, −0.301] → Medium effect size. **H₀ rejected.**
+**Test 1: Pearson Correlation**
+> r = −0.377, p < 0.001, 95% CI = [−0.450, −0.301]. Medium effect size. **H₀ rejected.**
 
-**Test 2 — Spearman Rank Correlation**
-> ρ = −0.355, p < 0.001 → Confirms result is not driven by outliers or distributional assumptions.
+**Test 2: Spearman Rank Correlation**
+> ρ = −0.355, p < 0.001. Confirms result is not driven by outliers or distributional assumptions.
 
-**Test 3 — Independent Samples t-test**
-> High-AMV teams: 83 pts vs Low-AMV teams: 94 pts — mean difference 11.1 pts (t = −6.86, p < 0.001, Cohen's d ≈ 0.57)
+**Test 3: Independent Samples t-test**
+> High-AMV teams: 83 pts vs Low-AMV teams: 94 pts. Mean difference 11.1 pts (t = −6.86, p < 0.001, Cohen's d ≈ 0.57).
 
-**Test 4 — One-way ANOVA**
-> Significant difference in Discipline Points across leagues (p < 0.001) — league identity is an important covariate.
+**Test 4: One-way ANOVA**
+> Significant difference in Discipline Points across leagues (p < 0.001). League identity is an important covariate.
 
 ![Main Scatter](outputs/plot2_scatter_main.png)
 
@@ -147,7 +147,7 @@ Four statistical tests were conducted at α = 0.05.
 | Süper Lig | 93 | −0.249 | −0.296 | ✅ Yes |
 | **All Leagues** | **583** | **−0.377** | **−0.355** | ✅ p < 0.001 |
 
-Premier League and Ligue 1 show significant Pearson but non-significant Spearman correlations, suggesting the linear signal is driven by outlier clubs (e.g. Man City, PSG) rather than a consistent rank-order trend.
+The Premier League and Ligue 1 show significant Pearson but non-significant Spearman correlations. Manchester City and PSG represent extreme outliers combining very high AMV with unusually low Discipline Points, exerting a disproportionate pull on the Pearson correlation. Spearman's rank-based structure is resistant to this pull, which explains the divergence. In leagues where the relationship is more evenly distributed across clubs (Serie A, La Liga, Bundesliga) both measures converge.
 
 ![Scatter by League](outputs/plot3_scatter_by_league.png)
 
@@ -162,9 +162,9 @@ Possession is confirmed as a mediating variable (r = −0.238, p < 0.001): wealt
 ### Machine Learning
 
 **Feature set:** AMV (€M), Possession (%), one-hot encoded League, ordinal-encoded Season.  
-CrdY, CrdR, and CoA were excluded to prevent data leakage. 80/20 train-test split (`random_state=42`).
+CrdY, CrdR, and CoA were excluded to prevent data leakage. 80/20 train-test split (random_state=42).
 
-#### Regression — Predicting Discipline Points
+#### Regression: Predicting Discipline Points
 
 | Model | R² | MAE | RMSE |
 |-------|-----|-----|------|
@@ -173,11 +173,11 @@ CrdY, CrdR, and CoA were excluded to prevent data leakage. 80/20 train-test spli
 | Lasso (α=0.1) | 0.4109 | 13.55 | 16.91 |
 | Random Forest | 0.3858 | 13.70 | 17.27 |
 
-The models explain ~41% of discipline point variance. The remaining 59% reflects inherent noise — referee tendencies, match context, individual decisions.
+The models explain approximately 41% of discipline point variance. The remaining 59% reflects inherent noise in football: referee tendencies, match context, individual decisions.
 
 ![Regression](outputs/regression_analysis.png)
 
-#### Clustering — Team Profiles
+#### Clustering: Team Profiles
 
 K-Means (k=2, silhouette = 0.426):
 
@@ -190,7 +190,7 @@ The **22-point discipline gap** combined with a **7% possession differential** i
 
 ![Clustering](outputs/clustering_analysis.png)
 
-#### Classification — Aggression Level Prediction
+#### Classification: Aggression Level Prediction
 
 Discipline Points binned: Low (< 79), Medium (79–96), High (> 96). Random baseline: 33%.
 
@@ -206,13 +206,13 @@ Discipline Points binned: Low (< 79), Medium (79–96), High (> 96). Random base
 
 ---
 
-## Key Findings
+## Findings
 
-1. **Significant negative correlation** between AMV and Discipline Points across all 583 observations (r = −0.377, p < 0.001; ρ = −0.355, p < 0.001).
-2. **High-AMV teams average 11 fewer Discipline Points** per season (t-test p < 0.001, Cohen's d ≈ 0.57) — roughly 11 additional yellow cards for low-AMV sides.
+1. **Significant negative correlation** between AMV and Discipline Points across all 583 observations (r = −0.377, p < 0.001; ρ = −0.355, p < 0.001). Medium effect size.
+2. **High-AMV teams average 11 fewer Discipline Points** per season (t-test p < 0.001, Cohen's d ≈ 0.57), roughly 11 additional yellow cards for low-AMV sides.
 3. **Relationship holds in 4 of 6 leagues** on both Pearson and Spearman measures. Premier League and Ligue 1 are outlier-driven.
 4. **Stable across all five seasons** — no season shows a positive or null correlation.
-5. **K-Means identifies two natural profiles** — High Value / Disciplined vs Low Value / Aggressive — separated by 22 Discipline Points and €11.75M in AMV.
+5. **K-Means identifies two natural profiles**: High Value / Disciplined vs Low Value / Aggressive, separated by 22 Discipline Points and €11.75M in AMV.
 6. **Possession partially mediates** the AMV–discipline relationship.
 7. **R² = 0.4125** — squad-level features explain 41% of discipline variance; the rest is in-game randomness.
 
@@ -224,34 +224,25 @@ Discipline Points binned: Low (< 79), Medium (79–96), High (> 96). Random base
 - **Cross-league comparability:** Referee standards differ across competitions, introducing systematic noise.
 - **Transfermarkt subjectivity:** Community-estimated valuations may reflect form and media profile, not just ability.
 - **Temporal autocorrelation:** The same club appears up to 5 times; a panel fixed-effects model would be more rigorous.
-- **Excluded leagues:** Six leagues limits generalizability to other financial/cultural contexts.
+- **Excluded leagues:** Six leagues limits generalizability to other financial and cultural contexts.
 
 ## Future Work
 
-- **Panel data modeling** with club fixed-effects for causal interpretation
-- **Player-level analysis** (cards per 90 mins vs individual market value)
-- **Causal inference** via instrumental variables or difference-in-differences
-- **Referee fixed effects** to control for cross-league disciplinary variance
-- **Extended time horizon** (10+ seasons) to track trends as transfer fees inflate
+- Panel data modeling with club fixed-effects for causal interpretation
+- Player-level analysis (cards per 90 mins vs individual market value)
+- Causal inference via instrumental variables or difference-in-differences
+- Referee fixed effects to control for cross-league disciplinary variance
+- Extended time horizon (10+ seasons) to track trends as transfer fees inflate
 
 ---
 
 ## How to Reproduce
 
 ```bash
-# Install dependencies
 pip install -r requirements.txt
-
-# Build master dataset
 python scripts/01_data_collection.py
-
-# Run EDA
 python scripts/02_eda.py
-
-# Run hypothesis tests
 python scripts/03_hypothesis_testing.py
-
-# Run ML analysis
 python scripts/04_ml_analysis.py
 ```
 
@@ -259,4 +250,4 @@ python scripts/04_ml_analysis.py
 
 ## AI Usage Disclosure
 
-Generative AI tools (Claude, Anthropic) were used during the brainstorming, coding, and writing phases of this project. All prompts and generated outputs are documented in [`AI_Usage_Logs.md`](AI_Usage_Logs.md) as required by DSA 210 course policy. All analytical decisions, dataset choices, statistical interpretations, and conclusions are the author's own.
+Generative AI tools (Claude, Anthropic and Gemini, Google) were used during the brainstorming, coding, and writing phases of this project. All prompts and generated outputs are documented in [`AI_Usage_Logs.md`](AI_Usage_Logs.md) as required by DSA 210 course policy. All analytical decisions, dataset choices, statistical interpretations, and conclusions are the author's own.
