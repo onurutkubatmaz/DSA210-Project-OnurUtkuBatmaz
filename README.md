@@ -211,10 +211,10 @@ Discipline Points binned: Low (< 79), Medium (79–96), High (> 96). Random base
 1. **Significant negative correlation** between AMV and Discipline Points across all 583 observations (r = −0.377, p < 0.001; ρ = −0.355, p < 0.001). Medium effect size.
 2. **High-AMV teams average 11 fewer Discipline Points** per season (t-test p < 0.001, Cohen's d ≈ 0.57), roughly 11 additional yellow cards for low-AMV sides.
 3. **Relationship holds in 4 of 6 leagues** on both Pearson and Spearman measures. Premier League and Ligue 1 are outlier-driven.
-4. **Stable across all five seasons** — no season shows a positive or null correlation.
+4. **Stable across all five seasons**, with no season showing a positive or null correlation.
 5. **K-Means identifies two natural profiles**: High Value / Disciplined vs Low Value / Aggressive, separated by 22 Discipline Points and €11.75M in AMV.
 6. **Possession partially mediates** the AMV–discipline relationship.
-7. **R² = 0.4125** — squad-level features explain 41% of discipline variance; the rest is in-game randomness.
+7. **R² = 0.4125**, squad-level features explain 41% of discipline variance; the rest is in-game randomness.
 
 ---
 
