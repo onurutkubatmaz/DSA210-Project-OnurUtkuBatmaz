@@ -23,6 +23,8 @@ The central question motivating this project is deceptively simple: **does money
 |---|---|
 | **H₀** | There is no relationship between a team's average player market value and its disciplinary record. |
 | **H₁** | Teams with higher average player market values receive fewer disciplinary points (negative correlation). |
+| **H₂** | Teams with higher ball possession percentages receive fewer disciplinary points (possession as a mediating variable). |
+| **H₃** | There is a significant difference in mean disciplinary points across leagues (league identity as a structural covariate). |
 
 ---
 
